@@ -1679,7 +1679,7 @@ def run(coro, loop=None):
     def runner():
         result = loop.run_until_complete(coro)
         ft.set_result(result)
-        for task in asyncio.Task.all_tasks(loop=loop):
+        for task in asyncio.all_tasks(loop=loop):
             task.cancel()
         time.sleep(0.1)
 
