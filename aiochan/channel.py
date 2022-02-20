@@ -74,7 +74,7 @@ class Chan:
             self._close_event = None
         else:
             self.loop = loop or asyncio.get_event_loop()
-            self._close_event = asyncio.Event(loop=loop)
+            self._close_event = asyncio.Event()
         try:
             self._buf = _buf_types[buffer](buffer_size)
         except KeyError:
@@ -596,7 +596,7 @@ class Chan:
             Pool = mp_module.Pool
         pool = Pool(n, *pool_args, **pool_kwargs)
 
-        in_flight = asyncio.Semaphore(n + pool_buffer, loop=self.loop)
+        in_flight = asyncio.Semaphore(n + pool_buffer)
 
         def complete_callback(ft):
             def wrapped(r):
@@ -693,7 +693,7 @@ class Chan:
             Pool = mp_module.Pool
         pool = Pool(n, *pool_args, **pool_kwargs)
 
-        in_flight = asyncio.Semaphore(n + pool_buffer, loop=self.loop)
+        in_flight = asyncio.Semaphore(n + pool_buffer)
 
         def complete_callback(r):
             if flatten:
